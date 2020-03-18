@@ -10,16 +10,13 @@ module AppVersion
     ( getGitInfo
     ) where
 
-import Control.Exception (throwIO)
-
 import qualified GitHash as Git
 
 
-{- | Extract 'Git.GitInfo' about the current repository.
+{- | Extract 'Git.GitInfo' about the current repository or return
+'Git.GitHashException' in case of any failures.
 -}
-getGitInfo :: IO Git.GitInfo
+getGitInfo :: IO (Either Git.GitHashException Git.GitInfo)
 getGitInfo = Git.getGitRoot "." >>= \case
-    Left err -> throwIO err
-    Right root -> Git.getGitInfo root >>= \case
-        Left err -> throwIO err
-        Right info -> pure info
+    Left err -> pure $ Left err
+    Right root -> Git.getGitInfo root
