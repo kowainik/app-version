@@ -24,7 +24,7 @@ source-repository head
 
 common common-options
   build-depends:       base >= 4.11.1.0 && < 4.14
-  
+
   ghc-options:         -Wall
                        -Wcompat
                        -Widentities
@@ -60,3 +60,4 @@ library
   import:              common-options
   hs-source-dirs:      src
   exposed-modules:     AppVersion
+  build-depends:       githash ^>= 0.1.3
