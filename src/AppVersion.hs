@@ -7,9 +7,16 @@ Get your application version
 -}
 
 module AppVersion
-       ( someFunc
-       ) where
+    ( getGitInfo
+    ) where
+
+import qualified GitHash as Git
 
 
-someFunc :: IO ()
-someFunc = putStrLn ("someFunc" :: String)
+{- | Extract 'Git.GitInfo' about the current repository or return
+'Git.GitHashException' in case of any failures.
+-}
+getGitInfo :: IO (Either Git.GitHashException Git.GitInfo)
+getGitInfo = Git.getGitRoot "." >>= \case
+    Left err -> pure $ Left err
+    Right root -> Git.getGitInfo root
